@@ -24,8 +24,7 @@ function App() {
   }, [auth])
   return(
     <Layout>
-      <ToastContainer />
-      <Loader />
+      <ToastContainer theme="dark" autoClose={1000} hideProgressBar newestOnTop />
       { init ? <Router isAuthenticated={isAuthenticated} /> : <Loader /> } {/*상태값 변경이 됐으면 라우터 보여주고 or loading */}
     </Layout>
   )
