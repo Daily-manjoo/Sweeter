@@ -5,6 +5,7 @@ import {getAuth, onAuthStateChanged} from "firebase/auth";
 import { app } from 'firebaseApp';
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from 'components/loader/Loader';
 
 function App() {
   const auth = getAuth(app);
@@ -24,7 +25,8 @@ function App() {
   return(
     <Layout>
       <ToastContainer />
-      { init ? <Router isAuthenticated={isAuthenticated} /> : 'loading' } {/*상태값 변경이 됐으면 보여주고 or loading */}
+      <Loader />
+      { init ? <Router isAuthenticated={isAuthenticated} /> : <Loader /> } {/*상태값 변경이 됐으면 라우터 보여주고 or loading */}
     </Layout>
   )
 }
