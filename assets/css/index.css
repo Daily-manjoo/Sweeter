@@ -128,7 +128,7 @@ body {
   gap: 4px;
   align-items: center;
 }
-.post__email, .post__createAt {
+.post__email, .post__createdAt {
   font-size: 12px;
   color: #585f6b;
 }

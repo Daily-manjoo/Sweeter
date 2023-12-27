@@ -1,5 +1,9 @@
+import { useContext, useEffect, useState } from "react";
 import PostForm from "components/posts/PostForm";
 import PostBox from "components/posts/PostBox";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import AuthContext from "context/AuthContext";
+import { db } from "firebaseApp";
 
 export interface PostProps {
     id: string;
@@ -13,46 +17,26 @@ export interface PostProps {
     comments?: any;
 }
 
-export const posts: PostProps[] = [
-    {
-        id: "1",
-        email: "test@test.com",
-        content: "내용1입니다",
-        createdAt: "2023-12-19",
-        uid: '123123',
-    },
-    {
-        id: "2",
-        email: "test@test.com",
-        content: "내용2입니다",
-        createdAt: "2023-12-19",
-        uid: '123123',
-    },
-    {
-        id: "3",
-        email: "test@test.com",
-        content: "내용3입니다",
-        createdAt: "2023-12-19",
-        uid: '123123',
-    },
-    {
-        id: "4",
-        email: "test@test.com",
-        content: "내용4입니다",
-        createdAt: "2023-12-22",
-        uid: '123123',
-    },
-    {
-        id: "5",
-        email: "test@test.com",
-        content: "내용5입니다",
-        createdAt: "2023-12-27",
-        uid: '123123',
-    },
-]
-
 export default function HomePage(){
-    
+    const [posts, setPosts] = useState<PostProps[]>([]);
+    const { user } = useContext(AuthContext); //로그인 정보 가져와야 게시글 읽도록
+
+    useEffect(()=> {
+        if(user){
+            let postsRef = collection(db, "posts");
+            let postsQuery = query(postsRef, orderBy("createdAt", "desc"));
+
+            onSnapshot(postsQuery, (snapShot)=> {
+                let dataObj = snapShot.docs.map((doc)=> ({
+                    ...doc.data(),
+                    id: doc?.id,
+                }));
+                setPosts(dataObj as PostProps[]);
+                console.log(dataObj);
+            })
+        }
+    }, [user])
+
     return (
         <div className="home">
             <div className="home__top">
@@ -65,9 +49,11 @@ export default function HomePage(){
             
             <PostForm />
             <div className="post">
-                {posts?.map((post)=> (
+                {posts?.length > 0 ? posts?.map((post)=> (
                     <PostBox post={post} key={post.id} />
-            ))}
+            )): <div className="post__no-posts">
+                    <div className="post__text">글이 없습니다.</div>
+                </div>}
             </div>
          </div>
     );
