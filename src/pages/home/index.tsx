@@ -1,4 +1,4 @@
-import PostForm from "components/posts/PostFrom";
+import PostForm from "components/posts/PostForm";
 import PostBox from "components/posts/PostBox";
 
 export interface PostProps {
@@ -42,17 +42,27 @@ export const posts: PostProps[] = [
         createdAt: "2023-12-22",
         uid: '123123',
     },
+    {
+        id: "5",
+        email: "test@test.com",
+        content: "내용5입니다",
+        createdAt: "2023-12-27",
+        uid: '123123',
+    },
 ]
 
 export default function HomePage(){
     
     return (
         <div className="home">
-            <div className="home__title">Home</div>
-            <div className="home__tabs">
-                <div className="home__tab home__tab--active">For you</div>
-                <div className="home__tab">Following</div>
+            <div className="home__top">
+                <div className="home__title">Home</div>
+                <div className="home__tabs">
+                    <div className="home__tab home__tab--active">For you</div>
+                    <div className="home__tab">Following</div>
+                </div>
             </div>
+            
             <PostForm />
             <div className="post">
                 {posts?.map((post)=> (
