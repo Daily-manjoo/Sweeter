@@ -7,6 +7,7 @@ import AuthContext from "context/AuthContext";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "firebaseApp";
 import { toast } from "react-toastify";
+import { MdOutlineSearch } from "react-icons/md";
 
 export default function MenuList(){
     const {user} = useContext(AuthContext)
@@ -22,6 +23,10 @@ export default function MenuList(){
             <button type="button" onClick={() => navigate("/profile")}>
                 <BiUserCircle />
                 Profile
+            </button>
+            <button type="button" onClick={() => navigate("/search")}>
+                <MdOutlineSearch />
+                search
             </button>
             {user === null ? (
             <button type="button" onClick={() => navigate("/users/login")}>

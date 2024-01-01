@@ -50,11 +50,12 @@ export default function HomePage(){
             
             <PostForm />
             <div className="post">
-                {posts?.length > 0 ? posts?.map((post)=> (
-                    <PostBox post={post} key={post.id} />
-            )): <div className="post__no-posts">
+                {posts?.length > 0 ? (
+                    posts?.map((post)=>  <PostBox post={post} key={post.id} />)
+            ): (<div className="post__no-posts">
                     <div className="post__text">글이 없습니다.</div>
-                </div>}
+                </div>
+            )}
             </div>
          </div>
     );
