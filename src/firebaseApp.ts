@@ -1,5 +1,6 @@
 import { initializeApp, FirebaseApp, getApp } from "firebase/app";
 import {getFirestore} from 'firebase/firestore';
+import {getStorage} from 'firebase/storage'
 
 export let app: FirebaseApp; 
 
@@ -20,5 +21,7 @@ try { //처음 초기화가 됐으면 getApp을 가져오고 아니면 초기화
 export const firebase = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
+
+export const storage = getStorage(app);
 
 export default firebase;
