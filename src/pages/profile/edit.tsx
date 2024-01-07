@@ -4,10 +4,12 @@ import { useContext, useEffect, useState } from "react";
 import { FiImage } from "react-icons/fi";
 import { updateProfile } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
-import { ref, uploadString, getDownloadURL } from "firebase/storage";
+import { ref, uploadString, getDownloadURL, deleteObject } from "firebase/storage";
 import { storage } from "firebaseApp";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
+const STORAGE_DOWNLOAD_URL_STR = "https://firebasestorage.googleapis.com"
 
 export default function ProfileEdit(){
     const [displayName, setDisplayName] = useState<string>("");
@@ -47,13 +49,16 @@ export default function ProfileEdit(){
         e.preventDefault();
 
         try {
-            //기존 이미지 삭제
-            // if(user?.photoURL){
-            //     const imageRef = ref(storage, user?.photoURL);
-            //     await deleteObject(imageRef).catch((error) => {
-            //         console.log(error);
-            //     })
-            // }
+            //기존 유저 이미지가 firebase storage 스토리지 이미지일 경우만 삭제
+            if(user?.photoURL && user?.photoURL?.includes(STORAGE_DOWNLOAD_URL_STR)){
+                const imageRef = ref(storage, user?.photoURL);
+                if(imageRef){
+                    await deleteObject(imageRef).catch((error) => {
+                        console.log(error);
+                    })
+                }
+                
+            }
             //새 이미지 업로드
             if(imageUrl){
                 const data = await uploadString(storageRef, imageUrl, "data_url");
@@ -104,9 +109,9 @@ export default function ProfileEdit(){
                             <label className="post-form__file" htmlFor="file-input">
                                 <FiImage className="post-form__file-icon"/>
                             </label>
+                        </div>
                             <input type="file" name="file-input"  id="file-input" className="hidden"accept="image/*"  onChange={handleFileUpload} />
                             <input type="submit" value="프로필 수정" className="post-form__submit-btn" />
-                        </div>
                     </div>
                 </div>
             </form>
