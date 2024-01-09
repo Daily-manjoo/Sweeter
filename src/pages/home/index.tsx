@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import PostForm from "components/posts/PostForm";
 import PostBox from "components/posts/PostBox";
-import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import AuthContext from "context/AuthContext";
 import { db } from "firebaseApp";
 
@@ -14,7 +14,7 @@ export interface PostProps {
     profileUrl?: string; //선택사항(옵셔널)
     likes?: string[];
     likeCount?: number;
-    comments?: any;
+    comments?: string[];
     hashTags?: string[];
     imageUrl?: string;
 }
