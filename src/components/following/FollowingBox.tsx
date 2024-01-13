@@ -44,25 +44,27 @@ export default function FollowingBox({post}:FollowingProps){
         }
     };
 
-    const onClickDeleteFollow = async(e:any)=> {
+    const onClickDeleteFollow = async (e: any) => {
         e.preventDefault();
-
+      
         try {
-            if(user?.uid){
-                const followingRef = doc(db, "following", user?.uid);
-                await updateDoc(followingRef, {
-                    users: arrayRemove({id: post?.uid})
-                })
-                const followerRef = doc(db, "follower", post?.uid);
-                await updateDoc(followerRef, {
-                    users: arrayRemove({id: post?.uid})
-                })};
-
-                toast.success("팔로우를 취소했습니다.");
-            }catch(e){
-            console.log(e);
+          if (user?.uid) {
+            const followingRef = doc(db, "following", user?.uid);
+            await updateDoc(followingRef, {
+              users: arrayRemove({ id: post?.uid }),
+            });
+            const followerRef = doc(db, "follower", post?.uid);
+            await updateDoc(followerRef, {
+              users: arrayRemove({ id: user?.uid }),
+            });
+      
+            setPostFollowers(postFollowers.filter((userId:any) => userId !== post?.uid));
+            toast.success("팔로우를 취소했습니다.");
+          }
+        } catch (e) {
+          console.log(e);
         }
-    }
+      };
 
     //해당 게시글의 팔로워 보여주기
     const getFollowers = useCallback(async()=> {
@@ -76,21 +78,24 @@ export default function FollowingBox({post}:FollowingProps){
         }
     }, [post.uid]);
 
-    console.log(postFollowers)
-
     useEffect(()=> {
         if(post.uid) getFollowers();
     }, [getFollowers, post.uid]);
 
     return(
         <>
-            {user?.uid !== post?.uid && (
-                postFollowers?.includes(user?.uid) ? (
-                    <button type="button" className="post__following-btn" onClick={onClickDeleteFollow}>Following</button>
-                ) : (
-                    <button type="button" className="post__follow-btn" onClick={onClickFollow}>Follower</button>
-                ))}
-        </>
+        {user?.uid !== post?.uid && (
+          postFollowers?.includes(user?.uid) ? (
+            <button type="button" className="post__following-btn" onClick={onClickDeleteFollow}>
+              Following
+            </button>
+          ) : (
+            <button type="button" className="post__follow-btn" onClick={onClickFollow}>
+              Follower
+            </button>
+          )
+        )}
+      </>
         
     )
 }
