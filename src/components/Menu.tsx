@@ -9,34 +9,36 @@ import { app } from "firebaseApp";
 import { toast } from "react-toastify";
 import { MdOutlineSearch } from "react-icons/md";
 import { IoMdNotifications } from "react-icons/io";
+import useTranslation from "hooks/useTranslation";
 
 export default function MenuList(){
     const {user} = useContext(AuthContext)
     console.log(user);
     const navigate = useNavigate();
+    const translate = useTranslation();
 
     return <div className="footer">
         <div className="footer__grid">
             <button type="button" onClick={() => navigate("/")}>
                 <BsHouse />
-                Home
+                {translate("MENU_HOME")}
             </button>
             <button type="button" onClick={() => navigate("/profile")}>
                 <BiUserCircle />
-                Profile
+                {translate("MENU_PROFILE")}
             </button>
             <button type="button" onClick={() => navigate("/search")}>
                 <MdOutlineSearch />
-                search
+                {translate("MENU_SEARCH")}
             </button>
             <button type="button" onClick={() => navigate("/notifications")}>
                 <IoMdNotifications />
-                notification
+                {translate("MENU_NOTI")}
             </button>
             {user === null ? (
             <button type="button" onClick={() => navigate("/users/login")}>
             <MdLogin />
-            Login
+            {translate("MENU_LOGIN")}
             </button>
             ) : (
             <button type="button" onClick={async() => {
@@ -45,7 +47,7 @@ export default function MenuList(){
                 toast.success("로그아웃이 되었습니다.")
             }}>
             <MdLogout />
-            Logout
+            {translate("MENU_LOGOUT")}
             </button>
             ) }
             
