@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { ref, deleteObject } from "firebase/storage";
 import { storage } from "firebaseApp";
 import FollowingBox from "components/following/FollowingBox";
+import useTranslation from "hooks/useTranslation";
 
 interface PostBoxProps {
     post: PostProps;
@@ -19,6 +20,7 @@ export default function PostBox({post}: PostBoxProps){
     const {user} = useContext(AuthContext)
     const navigate = useNavigate();
     const imageRef = ref(storage, post?.imageUrl);
+    const translate = useTranslation();
 
     const toggleLike = async() => {
         const postRef = doc(db, "posts", post.id);
@@ -92,11 +94,11 @@ export default function PostBox({post}: PostBoxProps){
                 {user?.uid === post?.uid && (
                 <>
                     <button type="button" className="post__delete" onClick={handleDelete}>
-                        Delete
+                        {translate("BUTTON_DELETE")}
                     </button>
                     <button type="button" className="post__edit">
                         <Link to={`/posts/edit/${post?.id}`}>
-                            Edit
+                        {translate("BUTTON_EDIT")}
                         </Link>
                     </button>
                 </>

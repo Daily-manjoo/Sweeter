@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import AuthContext from "context/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import useTranslation from "hooks/useTranslation";
 
 export default function PostForm() {
     const [content, setContent ] = useState<string>("");
@@ -14,6 +15,8 @@ export default function PostForm() {
     const [imageFile, setImageFile] = useState<string | null>(null);
     const [tags, setTags] = useState<string[]>([]);
     const {user} = useContext(AuthContext)
+    const translate = useTranslation();
+
     const handleFileUpload = (e: any) => {
         const {
             target: {files},
@@ -103,14 +106,14 @@ export default function PostForm() {
     
     return(
         <form className="post-form" onSubmit={onSubmit}>
-        <textarea className="post-form__textarea" required name="content" id="content" placeholder="What is your dessert?" onChange={onChange} value={content} />
+        <textarea className="post-form__textarea" required name="content" id="content" placeholder={translate("POST_PLACEHOLDER")} onChange={onChange} value={content} />
         <div className="post-form__hashtags">
         <span className="post-form__hastags-outputs">
             {tags?.map((tag, index)=> (
                 <span className="post-form__hashtags-tag" key={index} onClick={() => removeTag(tag)}>#{tag}</span>
             ))}
         </span>
-            <input type="text" className="post-form__input" name="hashtag" id="hasgtag" placeholder="해시태그 + 스페이스 바 입력" onChange={onChangeHashTag} onKeyUp={handleKeyUp} value={hashTag} />
+            <input type="text" className="post-form__input" name="hashtag" id="hasgtag" placeholder={translate("POST_HASHTAG")} onChange={onChangeHashTag} onKeyUp={handleKeyUp} value={hashTag} />
         </div>
         <div className="post-form__submit-area">
             <div className="post-form__image-area">
@@ -121,7 +124,7 @@ export default function PostForm() {
                 {imageFile && (
                     <div className="post-form__attachment">
                         <img src={imageFile} alt="attachment" width={100} height={100} />
-                        <button className="post-form__clear-btn" type="button" onClick={handleDeleteImage} disabled={isSubmitting}>Clear</button>
+                        <button className="post-form__clear-btn" type="button" onClick={handleDeleteImage} disabled={isSubmitting}>{translate("BUTTON_DELETE")}</button>
                     </div>
                 )}
             </div>
