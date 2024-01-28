@@ -29,7 +29,6 @@ export default function ProfilePage(){
             let postsRef = collection(db, "posts");
             const myPostQuery = query(postsRef, where('uid' , '==', user.uid), orderBy("createdAt", "desc"));
             const likePostQuery = query(postsRef, where('likes' , 'array-contains', user.uid), orderBy("createdAt", "desc"));
-            console.log("Before onSnapshot - myPostQuery");
             onSnapshot(myPostQuery, (snapShot)=> {
                 let dataObj = snapShot.docs.map((doc)=> ({
                     ...doc.data(),

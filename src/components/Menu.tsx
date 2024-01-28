@@ -13,7 +13,6 @@ import useTranslation from "hooks/useTranslation";
 
 export default function MenuList(){
     const {user} = useContext(AuthContext)
-    console.log(user);
     const navigate = useNavigate();
     const translate = useTranslation();
 

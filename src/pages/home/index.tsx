@@ -59,7 +59,6 @@ export default function HomePage(){
                     id: doc?.id,
                 }));
                 setPosts(dataObj as PostProps[]);
-                console.log(dataObj);
             });
 
             onSnapshot(followingQuery, (snapShot)=> {
@@ -68,7 +67,6 @@ export default function HomePage(){
                     id: doc?.id,
                 }));
                 setFollowingPosts(dataObj as PostProps[]);
-                console.log(dataObj);
             })}
     }, [followingIds, user])
 
