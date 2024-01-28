@@ -1,5 +1,5 @@
 import AuthContext from "context/AuthContext";
-import { addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, arrayRemove, arrayUnion, collection, doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "firebaseApp";
 import { PostProps } from "pages/home"
 import { useCallback, useContext, useEffect, useState } from "react";
@@ -16,7 +16,6 @@ interface UserProps {
 export default function FollowingBox({ post }: FollowingProps) {
   const { user } = useContext(AuthContext);
   const [postFollowers, setPostFollowers] = useState<any>([]);
-  const t = useTranslation();
 
   const onClickFollow = async (e: any) => {
     e.preventDefault();
